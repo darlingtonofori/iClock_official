@@ -1,0 +1,39 @@
+.statis-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 740px;
+  padding: 10px 50px;
+  margin: 30px;
+  border-radius: 6px;
+  background: white;
+}
+
+.statis-function {
+  display: flex;
+}
+
+.statis-function div {
+  border: 1px solid rgb(224, 221, 221);
+  padding: 10px 40px;
+  cursor: pointer;
+  background-color: rgb(255, 255, 255);
+}
+
+.statis-function div.selected {
+  background-color: rgb(245, 242, 242);
+}
+
+.function-main {
+  margin: 30px auto;
+}
+
+.list_product-allproducts {
+  overflow-y: auto;
+  max-height: 450px;
+}
+
+.quantity h1 {
+  text-align: center;
+}

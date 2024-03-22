@@ -1,0 +1,37 @@
+.order-detail {
+  width: 100%;
+  height: fit-content;
+  padding: 10px 50px;
+  margin: 30px;
+  border-radius: 6px;
+  background: white;
+}
+
+.order-detail h2 {
+  text-align: center;
+  font-size: 30px;
+}
+
+.detail-container img {
+  width: 70px;
+  height: 70px;
+}
+
+.items {
+  display: flex;
+  gap: 40px;
+  margin: 30px auto;
+}
+
+.cancel_order button {
+  padding: 10px 5px;
+  width: 200px;
+  font-size: 15px;
+  font-weight: 600;
+  color: white;
+  background: #ed5050;
+  margin: 30px auto;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}

@@ -1,0 +1,13 @@
+.introduction {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1000px;
+  padding: 30px 50px;
+  margin: 20px 30px;
+  border-radius: 6px;
+  background: white;
+}
+
+.introduction h1 {
+  font-size: 30px;
+}

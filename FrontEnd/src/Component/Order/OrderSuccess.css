@@ -1,0 +1,19 @@
+.SuccessPayment {
+  font-size: 25px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.SuccessPayment i {
+  font-size: 25px;
+  color: white;
+  padding: 15px 15px;
+  margin: 20px auto;
+}
+
+.SuccessPayment-icon {
+  border-radius: 50%;
+  background-color: rgb(19, 225, 19);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}

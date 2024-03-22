@@ -1,0 +1,29 @@
+.product-container {
+  padding: 20px;
+}
+
+.tab-buttons {
+  display: flex;
+  margin-bottom: 20px;
+  margin-left: 10%;
+  margin-top: 40px;
+}
+
+.tab-buttons button {
+  background-color: #f0f0f0;
+  border: none;
+  padding: 10px 20px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.tab-buttons button.active {
+  background-color: #ccc;
+}
+
+.tab-content {
+  width: 90%;
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin-bottom: 50px;
+}

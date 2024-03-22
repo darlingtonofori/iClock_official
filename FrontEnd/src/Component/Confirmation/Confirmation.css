@@ -1,0 +1,97 @@
+.cartItem {
+  display: flex;
+  align-items: center;
+  margin: 30px auto;
+}
+
+.cartItem img {
+  width: 100px;
+  height: 100px;
+}
+
+.confirm_container h2 {
+  text-align: center;
+  margin: 40px auto;
+  font-size: 35px;
+}
+
+.confirm_container h3 {
+  margin: 20px auto;
+}
+
+.overview {
+  margin: auto 100px;
+}
+
+.delivery_info hr {
+  margin-top: 20px;
+}
+
+.main {
+  display: flex;
+  gap: 10%;
+  justify-content: space-between;
+}
+
+.cost p {
+  margin: 10px auto;
+}
+
+.cost h3 {
+  font-size: 25px;
+}
+
+.payment {
+  display: flex;
+  justify-content: space-between;
+  gap: 15%;
+  margin: 30px auto auto auto;
+}
+.Paypal-edit {
+  width: 50%;
+  padding: 0;
+}
+
+.cost {
+  width: 50%;
+}
+
+.checkout {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.cash_directly {
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  font-weight: 500;
+  background-color: #41a0ff;
+  height: 19%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  color: white;
+  margin-bottom: 14px;
+}
+
+.confirm {
+  display: flex;
+  justify-content: center;
+  margin: 40px auto;
+}
+
+.confirm button {
+  width: 262px;
+  height: 58px;
+  outline: none;
+  border: none;
+  background: #41a0ff;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}

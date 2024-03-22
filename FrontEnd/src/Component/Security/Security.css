@@ -1,0 +1,13 @@
+.security-container {
+  padding: 20px 100px;
+}
+.security-container p {
+  padding: 10px 0;
+}
+.title {
+  font-weight: bold;
+}
+.security-container h1 {
+  padding: 40px 0;
+  font-size: 40px;
+}

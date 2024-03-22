@@ -1,0 +1,13 @@
+.warranty-container {
+  padding: 20px 100px;
+}
+.warranty-container p {
+  padding: 10px 0;
+}
+.title {
+  font-weight: bold;
+}
+.warranty-container h1 {
+  padding: 40px 0;
+  font-size: 40px;
+}
