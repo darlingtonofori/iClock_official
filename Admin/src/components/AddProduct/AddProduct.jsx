@@ -64,10 +64,14 @@ const AddProduct = () => {
   };
 
   const addStrap = (strap) => {
-    setSelectedStraps([...selectedStraps, strap]);
+    if (!selectedStraps.includes(strap)) {
+      setSelectedStraps([...selectedStraps, strap]);
+    }
   };
   const addFace = (face) => {
-    setSelectedFaces([...selectedFaces, face]);
+    if (!selectedFaces.includes(face)) {
+      setSelectedFaces([...selectedFaces, face]);
+    }
   };
   const Add_Product = async () => {
     console.log(productDetails);

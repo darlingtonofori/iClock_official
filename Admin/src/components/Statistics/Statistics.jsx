@@ -10,7 +10,7 @@ const Statistics = () => {
   const [productsSell, setProductsSell] = useState([]);
   const [orderDate, setOrderDate] = useState(new Date());
   const [orderbyDate, setOrderByDate] = useState([]);
-  const [haveOrder, setHaveOrder] = useState(false);
+  const [haveOrder, setHaveOrder] = useState(true);
 
   const fetchInfor = async () => {
     try {
@@ -41,19 +41,20 @@ const Statistics = () => {
 
   const fetchOrderByDate = async () => {
     const date = moment(orderDate).format("YYYY-MM-DD");
-    await fetch(`http://localhost:4000/orderbydate/${date}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success === true) {
-          setOrderByDate(data);
-          setHaveOrder(true);
-          alert("Load thành công");
-        } else {
-          setOrderByDate([]); // Đặt orderByDate thành mảng trống để xóa bất kỳ dữ liệu cũ nào
-          setHaveOrder(false);
-          alert(data.message); // Hiển thị thông báo từ API
-        }
-      });
+    try {
+      const response = await fetch(`http://localhost:4000/orderbydate/${date}`);
+      const data = await response.json();
+      if (data.success === false) {
+        setHaveOrder(false);
+      } else {
+        setHaveOrder(true);
+        setOrderByDate(data);
+      }
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+      // Xử lý lỗi khi fetch không thành công
+      setHaveOrder(false);
+    }
   };
 
   useEffect(() => {
@@ -97,6 +98,20 @@ const Statistics = () => {
   const changeDateHandler = (e) => {
     setOrderDate(e.target.value);
   };
+
+  const calculateTotalRevenue = () => {
+    if (orderbyDate.length === 0) {
+      return 0;
+    }
+    let totalRevenue = 0;
+    orderbyDate.forEach((order) => {
+      totalRevenue =
+        totalRevenue + parseInt(order.totalAmount.replace(/[^\d]/g, ""));
+    });
+    return totalRevenue;
+  };
+
+  const totalRevenue = calculateTotalRevenue();
 
   return (
     <div className="statis-main">
@@ -167,28 +182,55 @@ const Statistics = () => {
               />
               <button onClick={fetchOrderByDate}>Liệt kê</button>
             </div>
-            <div className="list_order-main">
+            <div className="list_orderdt-main">
               <p>Ngày </p>
               <p>ID các đơn hàng</p>
               <p>Tiền thu được</p>
               <p>Trạng thái </p>
             </div>
-            {haveOrder ? (
-              orderbyDate.map((item, i) => {
-                return (
-                  <div key={i} className="list_order-main list_order-format ">
-                    <p>{moment(item.createdAt).format("HH:mm DD/MM/YYYY")}</p>
-                    <p>{item._id}</p>
-                    <p>{item.totalAmount} đ</p>
-                    <p>{item.status}</p>
-                  </div>
-                );
-              })
-            ) : (
-              <div className="list_order-main list_order-format">
-                <p>Vui lòng chọn thời gian</p>
-              </div>
-            )}
+            <div className="list-products-sell">
+              {haveOrder ? (
+                orderbyDate.map((item, i) => {
+                  return (
+                    <>
+                      <div
+                        key={i}
+                        className="list_orderdt-main list_order-format "
+                      >
+                        <p>
+                          {moment(item.createdAt).format("HH:mm DD/MM/YYYY")}
+                        </p>
+                        <p>{item._id}</p>
+                        <p>{item.totalAmount} đ</p>
+                        <p>{item.status}</p>
+                      </div>
+                    </>
+                  );
+                })
+              ) : (
+                <>
+                  <p style={{ color: "red", textAlign: "center" }}>
+                    Không có dữ liệu đơn hàng trong ngày này
+                  </p>
+                </>
+              )}
+              <div></div>
+            </div>
+            <p>
+              {totalRevenue === 0 ? (
+                <strong>Không có doanh thu</strong>
+              ) : (
+                <>
+                  Tổng doanh thu:{" "}
+                  <strong style={{ color: "#41a0ff" }}>
+                    {totalRevenue
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}{" "}
+                    đ
+                  </strong>{" "}
+                </>
+              )}
+            </p>
           </div>
         )}
 
