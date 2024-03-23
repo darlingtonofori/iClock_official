@@ -8,9 +8,11 @@
   margin: 30px;
   border-radius: 6px;
   background: white;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
 .statis-function {
+  margin-top: 40px;
   display: flex;
 }
 
@@ -36,4 +38,44 @@
 
 .quantity h1 {
   text-align: center;
+}
+
+.ProductsSell h1 {
+  text-align: center;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-item p {
+  flex: 1;
+  margin: 0;
+  text-align: center;
+}
+
+.list_order-main {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr 1fr 1fr;
+  gap: 10px;
+  width: 100%;
+  padding: 20px 0px;
+  color: #454545;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.orderDate {
+  display: flex;
+  /* height: 30px; */
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.list-products-sell {
+  overflow-y: auto;
+  max-height: 400px;
 }

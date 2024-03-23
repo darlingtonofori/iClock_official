@@ -27,6 +27,7 @@
 
 .list-order_allorder {
   overflow-y: auto;
+  height: 450px;
 }
 
 .list_order-format {

@@ -1404,3 +1404,93 @@ app.post("/updateQuantity/:productId", async (req, res) => {
       .json({ success: false, message: "Lỗi server khi cập nhật số lượng" });
   }
 });
+
+app.get("/allordersx", async (req, res) => {
+  try {
+    const orders = await Order.find().sort({ createdAt: -1 });
+
+    const productQuantities = {};
+
+    orders.forEach((order) => {
+      const orderDate = order.createdAt.toDateString();
+
+      order.orderDetails.forEach((item) => {
+        const productName = item.productName;
+        const strapType = item.strapType;
+        const faceType = item.faceType;
+        const quantity = item.quantity;
+        const status = order.status;
+
+        // Kiểm tra nếu trạng thái là "chờ xác nhận", "đang xử lý" hoặc "đã hủy", bỏ qua mục này
+        if (
+          status === "Chờ xác nhận" ||
+          status === "Đang xử lý" ||
+          status === "Đã hủy"
+        ) {
+          return;
+        }
+
+        const key = `${productName}-${faceType}-${strapType}`;
+
+        if (productQuantities[key]) {
+          productQuantities[key].quantity += quantity;
+        } else {
+          productQuantities[key] = {
+            orderDate: orderDate,
+            productName: productName,
+            faceType: faceType,
+            strapType: strapType,
+            quantity: quantity,
+          };
+        }
+      });
+    });
+
+    const aggregatedProducts = Object.values(productQuantities);
+
+    res.json(aggregatedProducts);
+  } catch (error) {
+    console.error("Lỗi khi lấy danh sách đơn hàng:", error.message);
+    res.status(500).json({
+      success: false,
+      errors: "Lỗi khi lấy danh sách đơn hàng",
+    });
+  }
+});
+
+app.get("/orderbydate/:date", async (req, res) => {
+  try {
+    const date = new Date(req.params.date);
+    const startOfDay = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+      0,
+      0,
+      0,
+      0
+    ); // Bắt đầu của ngày được chỉ định
+    const endOfDay = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+      23,
+      59,
+      59,
+      999
+    ); // Kết thúc của ngày được chỉ định
+    const orders = await Order.find({
+      createdAt: { $gte: startOfDay, $lte: endOfDay },
+    });
+    if (!orders || orders.length === 0) {
+      // Kiểm tra nếu không có đơn hàng nào được tìm thấy
+      return res
+        .status(404)
+        .json({ success: false, message: "Không tìm thấy đơn hàng nào!" });
+    }
+    res.status(200).json(orders);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Lỗi máy chủ nội bộ" });
+  }
+});

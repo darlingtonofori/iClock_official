@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./Statistics.css";
 import { useEffect } from "react";
+import moment from "moment";
 
 const Statistics = () => {
   const [selectedButton, setSelectedButton] = useState("statisProduct");
   const [all_product, setAllProducts] = useState([]);
   const [quantity, setQuantity] = useState({});
+  const [productsSell, setProductsSell] = useState([]);
+  const [orderDate, setOrderDate] = useState(new Date());
+  const [orderbyDate, setOrderByDate] = useState([]);
+  const [haveOrder, setHaveOrder] = useState(false);
 
   const fetchInfor = async () => {
     try {
@@ -25,8 +30,35 @@ const Statistics = () => {
     }
   };
 
+  const fetchProductSell = async () => {
+    await fetch("http://localhost:4000/allordersx")
+      .then((res) => res.json())
+      .then((data) => {
+        setProductsSell(data);
+        console.log(data);
+      });
+  };
+
+  const fetchOrderByDate = async () => {
+    const date = moment(orderDate).format("YYYY-MM-DD");
+    await fetch(`http://localhost:4000/orderbydate/${date}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success === true) {
+          setOrderByDate(data);
+          setHaveOrder(true);
+          alert("Load thành công");
+        } else {
+          setOrderByDate([]); // Đặt orderByDate thành mảng trống để xóa bất kỳ dữ liệu cũ nào
+          setHaveOrder(false);
+          alert(data.message); // Hiển thị thông báo từ API
+        }
+      });
+  };
+
   useEffect(() => {
     fetchInfor();
+    fetchProductSell();
   }, []);
 
   const handleButtonClick = (buttonName) => {
@@ -62,6 +94,10 @@ const Statistics = () => {
     setQuantity(e.target.value);
   };
 
+  const changeDateHandler = (e) => {
+    setOrderDate(e.target.value);
+  };
+
   return (
     <div className="statis-main">
       <div className="statis-function">
@@ -86,15 +122,76 @@ const Statistics = () => {
       </div>
       <div className="function-main">
         {selectedButton === "statisProduct" && (
-          <div>
+          <div className="ProductsSell">
             <h1>Thống kê sản phẩm</h1>
+            <div className="list_order-main">
+              <p>Ngày bán hàng</p>
+              <p>Tên sản phẩm</p>
+              <p>Loại mặt</p>
+              <p>Loại dây đeo</p>
+              <p>Sô lượng bán</p>
+            </div>
+            <div className="list-products-sell">
+              <hr />
+              {productsSell.map((productsellx, index) => {
+                return (
+                  <>
+                    <div
+                      key={index}
+                      className="list_order-main list_order-format"
+                    >
+                      <p>{productsellx.orderDate}</p>
+                      <p>{productsellx.productName}</p>
+                      <p>{productsellx.strapType}</p>
+                      <p>{productsellx.faceType}</p>
+                      <p>{productsellx.quantity}</p>
+                    </div>
+                  </>
+                );
+              })}
+            </div>
           </div>
         )}
+
         {selectedButton === "statisRevenue" && (
-          <div>
+          <div className="quantity">
             <h1>Thống kê doanh thu</h1>
+            <div className="orderDate">
+              <p>Vui lòng chọn ngày đặt hàng: </p>
+              <input
+                type="date"
+                id="orderDate"
+                name="orderDate"
+                value={orderDate}
+                onChange={changeDateHandler}
+              />
+              <button onClick={fetchOrderByDate}>Liệt kê</button>
+            </div>
+            <div className="list_order-main">
+              <p>Ngày </p>
+              <p>ID các đơn hàng</p>
+              <p>Tiền thu được</p>
+              <p>Trạng thái </p>
+            </div>
+            {haveOrder ? (
+              orderbyDate.map((item, i) => {
+                return (
+                  <div key={i} className="list_order-main list_order-format ">
+                    <p>{moment(item.createdAt).format("HH:mm DD/MM/YYYY")}</p>
+                    <p>{item._id}</p>
+                    <p>{item.totalAmount} đ</p>
+                    <p>{item.status}</p>
+                  </div>
+                );
+              })
+            ) : (
+              <div className="list_order-main list_order-format">
+                <p>Vui lòng chọn thời gian</p>
+              </div>
+            )}
           </div>
         )}
+
         {selectedButton === "updateQuantity" && (
           <div className="quantity">
             <h1>Cập nhật số lượng hàng hoá</h1>

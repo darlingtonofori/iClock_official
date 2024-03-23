@@ -25,8 +25,8 @@ const Order = () => {
 
   return (
     <div className="list-order">
+      <h1>Danh sách đơn hàng</h1>
       <div className="order-list">
-        <h1>Danh sách đơn hàng</h1>
         <div className="list_order-main">
           <p>Mã đơn hàng</p>
           <p>Tên người nhận</p>
