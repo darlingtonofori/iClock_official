@@ -69,3 +69,11 @@
     height: 60px;
   }
 }
+
+.user_input {
+  padding: 5px 10px;
+  border: 1px solid #b9b5b5;
+  border-radius: 10px;
+  font-family: "Lexend";
+  outline: none;
+}

@@ -39,6 +39,7 @@ const AddPromote = () => {
 
   return (
     <div className="add-promote">
+      <h1>Thêm khuyến mãi</h1>
       <div className="addpromote-item-input">
         <p>Nội dung khuyến mãi</p>
         <input

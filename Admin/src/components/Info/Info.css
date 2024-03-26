@@ -1,0 +1,24 @@
+.propertie-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.all-Add {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 800px;
+  padding: 30px 50px;
+  margin: 20px 30px;
+  border-radius: 6px;
+  background: white;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.all-Add h1 {
+  text-align: center;
+}
+
+.pin-items {
+  width: 40% !important;
+}

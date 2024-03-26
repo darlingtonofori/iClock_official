@@ -116,6 +116,7 @@ const AddProduct = () => {
   };
   return (
     <div className="add-product">
+      <h1>Thêm sản phẩm</h1>
       <div className="addproduct-item-input">
         <p>Tiêu đề sản phẩm</p>
         <input

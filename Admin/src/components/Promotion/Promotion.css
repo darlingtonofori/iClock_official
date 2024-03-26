@@ -13,7 +13,7 @@
 
 .promote-main {
   display: grid;
-  grid-template-columns: 528fr 339fr 406fr 418fr 236fr 326fr;
+  grid-template-columns: 528fr 339fr 406fr 418fr 236fr 236fr 326fr;
   gap: 10px;
   width: 100%;
   padding: 20px 0px;

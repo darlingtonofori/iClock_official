@@ -119,8 +119,10 @@ const Confirmation = () => {
             }
           })
           .filter(Boolean),
+        totalBfPromote: getTotalCart(),
         totalAmount: getTotalCartPromote(),
         paymentMethod: paymentMethod,
+        discountApplied: `${discount}%`,
       };
 
       const token = localStorage.getItem("auth-token");

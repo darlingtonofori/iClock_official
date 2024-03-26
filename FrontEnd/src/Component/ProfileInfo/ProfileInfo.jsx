@@ -206,6 +206,7 @@ const ProfileInfo = () => {
       );
       if (isChangePassword) {
         changeUserPassword(localStorage.getItem("jsl"));
+        alert("Thông tin đã được cập nhật!");
       }
       const data = await response.json();
       console.log(data);

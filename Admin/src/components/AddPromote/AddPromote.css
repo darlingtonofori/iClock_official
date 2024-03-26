@@ -9,6 +9,10 @@
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
+.add-promote h1 {
+  text-align: center;
+}
+
 .addpromote-item-input {
   width: 100%;
   color: #7b7b7b;
@@ -38,7 +42,7 @@
   width: 160px;
   height: 50px;
   border-radius: 6px;
-  background: #6079ff;
+  background: #41a0ff;
   border: none;
   cursor: pointer;
   color: white;

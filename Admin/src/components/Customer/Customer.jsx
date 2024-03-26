@@ -135,6 +135,7 @@ const Customer = () => {
                 <p>{user.name}</p>
                 <p>{user.email}</p>
                 <select
+                  className="user_input"
                   name=""
                   value={userRoles[user._id]}
                   onChange={(e) => {
@@ -151,6 +152,7 @@ const Customer = () => {
                 </select>
                 <input
                   type="password"
+                  className="user_input"
                   value={passwords[user._id]?.new || ""}
                   onChange={(e) =>
                     setPasswords((prevPassword) => ({

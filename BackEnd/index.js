@@ -14,6 +14,7 @@ const cors = require("cors");
 // Hỗ trợ gửi mail
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
+const bcrypt = require("bcryptjs");
 
 // Xử lý dữ liệu gửi đến từ yêu cầu HTTP
 app.use(express.json());
@@ -225,6 +226,20 @@ app.get("/users", async (req, res) => {
   res.send(users);
 });
 
+const hashUserPassword = async (password) => {
+  try {
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    return hashedPassword;
+  } catch (error) {
+    throw new Error("Password hashing failed");
+  }
+};
+
+const comparePassword = async (password, hashedPassword) => {
+  return bcrypt.compare(password, hashedPassword);
+};
+
 // endpoing đăng ký người dùng
 app.post("/signup", async (req, res) => {
   let check = await Users.findOne({ email: req.body.email });
@@ -235,10 +250,11 @@ app.post("/signup", async (req, res) => {
   for (let i = 0; i < 300; i++) {
     cart[i] = 0;
   }
+  const hashedPassword = await hashUserPassword(req.body.password);
   const user = new Users({
     name: req.body.username,
     email: req.body.email,
-    password: req.body.password,
+    password: hashedPassword,
     cartData: cart,
   });
 
@@ -258,7 +274,7 @@ app.post("/signup", async (req, res) => {
 app.post("/login", async (req, res) => {
   let user = await Users.findOne({ email: req.body.email });
   if (user) {
-    const passCompare = req.body.password === user.password;
+    const passCompare = await comparePassword(req.body.password, user.password);
     if (passCompare) {
       const data = {
         user: {
@@ -820,6 +836,11 @@ const Promotion = mongoose.model("Promotion", {
     required: true,
     unique: true,
   },
+  status: {
+    type: String,
+    required: true,
+    default: "Đang sử dụng",
+  },
 });
 
 module.exports = Promotion;
@@ -873,9 +894,9 @@ app.post("/addpromotion", async (req, res) => {
 });
 
 app.post("/removepromote", async (req, res) => {
-  await Promotion.findOneAndDelete({ _id: req.body.promoCode });
+  await Promotion.findOneAndDelete({ _id: req.body._id });
   console.log("Đã xoá mã khuyến mãi");
-  res.json({ success: true, _id: req.body.promoCode });
+  res.json({ success: true, name: req.body.name });
 });
 
 app.post("/checkpromocode", async (req, res) => {
@@ -1203,6 +1224,10 @@ const orderSchema = new mongoose.Schema({
       },
     },
   ],
+  totalBfPromote: {
+    type: String,
+    required: true,
+  },
   totalAmount: {
     type: String,
     required: true,
@@ -1214,6 +1239,10 @@ const orderSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now,
+  },
+  discountApplied: {
+    type: String,
+    required: true,
   },
   status: {
     type: String,
@@ -1227,14 +1256,22 @@ module.exports = Order;
 
 app.post("/addorder", async (req, res) => {
   try {
-    const { recipientInfo, orderDetails, totalAmount, paymentMethod } =
-      req.body;
+    const {
+      recipientInfo,
+      orderDetails,
+      totalAmount,
+      paymentMethod,
+      discountApplied,
+      totalBfPromote,
+    } = req.body;
 
     const newOrder = new Order({
       recipientInfo,
       orderDetails,
       totalAmount,
       paymentMethod,
+      discountApplied,
+      totalBfPromote,
     });
 
     await newOrder.save();
@@ -1481,6 +1518,7 @@ app.get("/orderbydate/:date", async (req, res) => {
     ); // Kết thúc của ngày được chỉ định
     const orders = await Order.find({
       createdAt: { $gte: startOfDay, $lte: endOfDay },
+      status: "Đã giao hàng", // Thêm điều kiện lọc theo trạng thái "Đã giao hàng"
     });
     if (!orders || orders.length === 0) {
       // Kiểm tra nếu không có đơn hàng nào được tìm thấy

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import moment from "moment";
 import "./OrderDetail.css";
@@ -9,7 +9,7 @@ const OrderDetail = () => {
   const [status, setStatus] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState("");
 
-  const fetchOrderDetail = async () => {
+  const fetchOrderDetail = useCallback(async () => {
     try {
       const response = await fetch(
         `http://localhost:4000/orderdetail/${orderId}`
@@ -23,7 +23,7 @@ const OrderDetail = () => {
     } catch (error) {
       console.error("Lỗi khi lấy chi tiết đơn hàng:", error.message);
     }
-  };
+  }, [orderId]);
 
   const fetchStatusOrder = async () => {
     try {
@@ -41,7 +41,7 @@ const OrderDetail = () => {
   useEffect(() => {
     fetchOrderDetail();
     fetchStatusOrder();
-  }, []);
+  }, [fetchOrderDetail]);
 
   if (!order || !status.length) {
     return <div>Loading...</div>;
@@ -114,6 +114,15 @@ const OrderDetail = () => {
         <strong>Phương thức thanh toán: </strong>
         {order.paymentMethod === "cash" ? "Tiền mặt" : "Paypal"}
       </p>
+      <p>
+        <strong>Tiền cần thanh toán ban đầu:</strong> {order.totalBfPromote} đ
+      </p>
+      <p>
+        <strong>Khuyến mãi:</strong>{" "}
+        <span style={{ color: "rgb(65, 160, 255)", fontWeight: "600" }}>
+          Giảm {order.discountApplied}
+        </span>
+      </p>
       {order.paymentMethod === "cash" ? (
         <p>
           <strong>Tổng số tiền cần thanh toán:</strong> {order.totalAmount} đ
@@ -128,6 +137,7 @@ const OrderDetail = () => {
           <strong>Trạng thái đơn hàng</strong>
         </p>
         <select
+          className="order_input"
           value={selectedStatus}
           onChange={(e) => {
             handleStatusChange(e);

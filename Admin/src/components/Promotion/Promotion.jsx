@@ -17,16 +17,30 @@ const Promotion = () => {
     fetchInfor();
   }, []);
 
-  const removePromote = async (id) => {
+  const removePromote = async (promoteCode) => {
     await fetch("http://localhost:4000/removepromote", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ id: id }),
+      body: JSON.stringify({ _id: promoteCode }),
     });
     await fetchInfor();
+  };
+
+  const getStatus = (startDate, endDate) => {
+    const currentDate = moment();
+    const start = moment.utc(startDate);
+    const end = moment.utc(endDate);
+
+    if (currentDate.isBefore(start)) {
+      return "Chưa bắt đầu";
+    } else if (currentDate.isAfter(end)) {
+      return "Đã kết thúc";
+    } else {
+      return "Đang sử dụng";
+    }
   };
 
   return (
@@ -38,6 +52,7 @@ const Promotion = () => {
         <p>Ngày bắt đầu</p>
         <p>Ngày kết thúc</p>
         <p>Giá trị giảm</p>
+        <p>Trạng thái</p>
         <p>Xoá khuyến mãi</p>
       </div>
       <div className="promote-allpromotes">
@@ -53,8 +68,33 @@ const Promotion = () => {
                 </p>
                 <p>{moment.utc(promote.endDate).format("HH:mm DD/MM/YYYY")}</p>
                 <p>{promote.discount}%</p>
+                {/* Trạng thái */}
+                {getStatus(promote.startDate, promote.endDate) ===
+                  "Chưa bắt đầu" && (
+                  <p style={{ color: "orange", fontSize: "14px" }}>
+                    <strong>
+                      {getStatus(promote.startDate, promote.endDate)}
+                    </strong>
+                  </p>
+                )}
+                {getStatus(promote.startDate, promote.endDate) ===
+                  "Đang sử dụng" && (
+                  <p style={{ color: "#41a0ff", fontSize: "14px" }}>
+                    <strong>
+                      {getStatus(promote.startDate, promote.endDate)}
+                    </strong>
+                  </p>
+                )}
+                {getStatus(promote.startDate, promote.endDate) ===
+                  "Đã kết thúc" && (
+                  <p style={{ color: "red" }}>
+                    <strong>
+                      {getStatus(promote.startDate, promote.endDate)}
+                    </strong>
+                  </p>
+                )}
                 <img
-                  onClick={() => removePromote(promote.id)}
+                  onClick={() => removePromote(promote._id)}
                   src={remove_icon}
                   alt=""
                   className="promote-remove-icon"

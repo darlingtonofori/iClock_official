@@ -53,6 +53,7 @@ const ShowProduct = (props) => {
     } else {
       // alert(`${selectedFace} - ${selectedStrap}`);
       addToCart(product.id, selectedFace, selectedStrap);
+      alert("Đã thêm vào giỏ hàng!");
     }
   };
 
