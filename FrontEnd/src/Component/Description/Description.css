@@ -43,3 +43,35 @@
     font-size: 14px;
   }
 }
+@media (max-width: 500px) {
+  .description-nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 600;
+    width: 100px;
+    height: 40px;
+    border: 1px solid #d0d0d0;
+  }
+  .description-content {
+    font-size: 12px;
+  }
+  .description-content {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    border: 1px solid #d0d0d0;
+    padding: 25px 25px;
+  }
+  .review-nav-container.fade {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 600;
+    width: 100px;
+    height: 40px;
+    border: 1px solid #d0d0d0;
+  }
+}

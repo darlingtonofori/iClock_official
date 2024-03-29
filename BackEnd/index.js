@@ -226,20 +226,6 @@ app.get("/users", async (req, res) => {
   res.send(users);
 });
 
-const hashUserPassword = async (password) => {
-  try {
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    return hashedPassword;
-  } catch (error) {
-    throw new Error("Password hashing failed");
-  }
-};
-
-const comparePassword = async (password, hashedPassword) => {
-  return bcrypt.compare(password, hashedPassword);
-};
-
 // endpoing đăng ký người dùng
 app.post("/signup", async (req, res) => {
   let check = await Users.findOne({ email: req.body.email });
@@ -250,11 +236,11 @@ app.post("/signup", async (req, res) => {
   for (let i = 0; i < 300; i++) {
     cart[i] = 0;
   }
-  const hashedPassword = await hashUserPassword(req.body.password);
+  const password = req.body.password;
   const user = new Users({
     name: req.body.username,
     email: req.body.email,
-    password: hashedPassword,
+    password: password,
     cartData: cart,
   });
 
@@ -272,13 +258,13 @@ app.post("/signup", async (req, res) => {
 
 // endpoint đăng nhập
 app.post("/login", async (req, res) => {
+  const { password } = req.body;
   let user = await Users.findOne({ email: req.body.email });
   if (user) {
-    const passCompare = await comparePassword(req.body.password, user.password);
-    if (passCompare) {
+    if (user.password === password) {
       const data = {
         user: {
-          id: user.id,
+          _id: user._id,
           role: user.role,
           email: user.email,
         },
@@ -395,7 +381,7 @@ app.put("/update-profile/:email", async (req, res) => {
 // endpoint thêm sản phẩm vào giỏ hàng
 app.post("/addToCart", fetchUser, async (req, res) => {
   console.log("Đã thêm", req.body.itemId);
-  let userData = await Users.findOne({ _id: req.user.id });
+  let userData = await Users.findOne({ _id: req.user._id });
   userData.cartData[req.body.itemId] += 1;
   await Users.findOneAndUpdate(
     { _id: req.user.id },
@@ -424,7 +410,7 @@ app.post(
   fetchUser,
   async (req, res) => {
     console.log("Đã cập nhật giỏ hàng");
-    let userData = await Users.findOne({ _id: req.user.id });
+    let userData = await Users.findOne({ _id: req.user._id });
     res.json(userData.cartData);
   },
   []
@@ -490,15 +476,16 @@ app.put("/changepassword/:_id", async (req, res) => {
 
     // Kiem tra mat khau cu co trung khop khong
     if (user.password !== oldPassword) {
-      return res
-        .status(400)
-        .json({ success: false, errors: "Mật khẩu cũ không đúng" });
+      return res.status(400).json({
+        success: false,
+        errors: "Mật khẩu cũ không đúng",
+      });
+    } else {
+      // Cap nhat mat khau
+      user.password = newPassword;
+      await user.save();
+      res.json({ success: true, message: "Mật khẩu đã được cập nhật" });
     }
-
-    // Cap nhat mat khau
-    user.password = newPassword;
-    await user.save();
-    res.json({ success: true, message: "Mật khẩu đã được cập nhật" });
   } catch (error) {
     console.error(error.message);
     res.status(500).json({ success: false, errors: "Lỗi server" });

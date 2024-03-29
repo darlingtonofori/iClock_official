@@ -157,7 +157,7 @@
 
 @media (max-width: 500px) {
   .hero {
-    flex-direction: column;
+    height: 42vh;
   }
   .hero-right {
     display: none;
@@ -166,7 +166,7 @@
     font-size: 18px;
   }
   .hero-left p {
-    font-size: 50px;
+    font-size: 22px;
   }
   .hero-hand-icon img {
     width: 55px;
@@ -175,5 +175,11 @@
     width: 200px;
     height: 45px;
     font-size: 14px;
+  }
+  .hero-latest-btn div {
+    height: 27px;
+    display: flex;
+    align-items: center;
+    font-size: 13px;
   }
 }

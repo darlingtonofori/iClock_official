@@ -216,3 +216,28 @@
     transform: scale(0.8);
   }
 }
+
+@media (max-width: 320px) {
+  .greeting {
+    font-size: 9px;
+  }
+  .nav-logo p {
+    font-size: 20px;
+  }
+  .nav-login-cart button {
+    width: 55px;
+    height: 35px;
+    font-size: 9px;
+  }
+  .nav-logo img {
+    height: 41px;
+    width: 30px;
+  }
+  .profile_icon {
+    width: 30px;
+    height: 30px;
+  }
+  .nav-login-cart {
+    transform: scale(0.6);
+  }
+}

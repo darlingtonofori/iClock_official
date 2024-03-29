@@ -14,10 +14,10 @@ const Hero = ({ collectionRef }) => {
         <h2>Sản phẩm mới</h2>
         <div>
           <div className="hero-hand-icon">
-            <p>Bộ sưu tập</p>
-            <img src={hand_icon} alt="" />
+            <p>
+              Bộ sưu tập <span style={{ color: "#41a0ff" }}>mới</span>
+            </p>
           </div>
-          <p>Mới</p>
           <p>Cho tất cả mọi người</p>
         </div>
         <div className="hero-latest-btn" onClick={handleScrollToCollection}>

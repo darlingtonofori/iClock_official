@@ -208,8 +208,7 @@ const ProfileInfo = () => {
         changeUserPassword(localStorage.getItem("jsl"));
         alert("Thông tin đã được cập nhật!");
       }
-      const data = await response.json();
-      console.log(data);
+      alert("Đã lưu thông tin!");
     } catch (error) {
       console.error("Error updating user info:", error.message);
     }
@@ -238,14 +237,12 @@ const ProfileInfo = () => {
             }),
           }
         );
-        const data = await response.json();
-        if (!data.success) {
-          alert(data.errors);
-          return;
+        if (response.ok) {
+          alert("Mật khẩu đã được thay đổi");
+          await fetchUserData();
         } else {
-          alert(data.message);
+          alert("Mật khẩu cũ không đúng!");
         }
-        await fetchUserData();
       } catch (error) {
         // alert(`${newPassword} - ${oldPassword}`);
         console.error("Error changing user password:", error.message);
@@ -413,7 +410,9 @@ const ProfileInfo = () => {
                     </div>
                     <div className="button-saveChange">
                       {changePasswordMode ? (
-                        <button onClick={changeUserPassword}>
+                        <button
+                          onClick={() => changeUserPassword(userData._id)}
+                        >
                           Cập nhật mật khẩu
                         </button>
                       ) : (
@@ -426,7 +425,6 @@ const ProfileInfo = () => {
                       <button
                         onClick={() => {
                           updateUserInfo();
-                          changeUserPassword(localStorage.getItem("jsl"));
                         }}
                       >
                         Lưu thay đổi

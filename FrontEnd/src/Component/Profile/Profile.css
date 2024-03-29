@@ -11,3 +11,33 @@
   font-weight: bold;
   color: #41a0ff;
 }
+
+@media (max-width: 500px) {
+  .tabs {
+    font-size: 14px;
+    display: flex;
+    gap: 40px;
+  }
+  .profile-container h1 {
+    font-size: 23px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .profile-container {
+    max-width: 100%;
+    margin: 25px auto;
+    padding: 20px;
+  }
+  .button-saveChange button {
+    width: 200px;
+    height: 31px;
+    outline: none;
+    border: none;
+    background: #41a0ff;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+}

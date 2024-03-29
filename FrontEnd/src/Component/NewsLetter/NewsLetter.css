@@ -134,6 +134,7 @@
     gap: 15px;
   }
   .newsletter h1 {
+    text-align: center;
     font-size: 25px;
   }
   .newsletter p {
@@ -151,5 +152,13 @@
     width: 120px;
     height: 40px;
     font-size: 12px;
+  }
+  .new-collections {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    /* padding-bottom: 50px; */
+    margin-bottom: 100px;
   }
 }

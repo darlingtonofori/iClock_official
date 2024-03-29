@@ -11,3 +11,9 @@
   padding: 40px 0;
   font-size: 40px;
 }
+
+@media (max-width: 500px) {
+  .security-container {
+    padding: 20px 30px;
+  }
+}

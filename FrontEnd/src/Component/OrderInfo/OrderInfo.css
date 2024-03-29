@@ -25,25 +25,25 @@
   font-size: 15px;
 }
 
-.profile-info input {
+/* .profile-info input {
   margin-top: 10px;
   border: none;
   outline: none;
   height: 25px;
-}
+} */
 
 .bold-text {
   font-weight: bold;
 }
 
-.input-style {
+/* .input-style {
   background-color: #dddddd;
-  padding: 5px 10px;
+  padding: 10px 10px;
   border: none;
   border-radius: 5px;
   width: 100%;
   box-sizing: border-box;
-}
+} */
 
 .input-field {
   margin-bottom: 20px;
@@ -150,4 +150,11 @@
 
 .empty_track h2 {
   font-weight: 100;
+}
+
+@media (max-width: 500px) {
+  .order-item p {
+    font-size: 10px;
+    font-weight: 500;
+  }
 }

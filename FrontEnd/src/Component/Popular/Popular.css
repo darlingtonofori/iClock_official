@@ -83,11 +83,14 @@
 
 @media (max-width: 500px) {
   .popular {
-    height: 90vh;
+    margin: 50px auto;
   }
   .popular-item {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
+  }
+  .popular h1 {
+    font-size: 20px;
   }
 }
