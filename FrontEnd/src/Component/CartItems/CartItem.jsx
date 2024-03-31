@@ -3,11 +3,13 @@ import "./CartItem.css";
 import { useContext, useState } from "react";
 import { ShopContext } from "../../Context/ShopContext";
 import remove_icon from "../Asset/cart_cross_icon.png";
+import cart_empty from "../Asset/cart_empty.png";
 import { Link } from "react-router-dom";
 
 const CartItem = () => {
   const {
     getTotalCart,
+    getTotalItem,
     all_product,
     cartItems,
     removeFromCart,
@@ -29,6 +31,24 @@ const CartItem = () => {
     await applyPromo(promoCode);
   };
 
+  // Kiểm tra nếu giỏ hàng trống
+  if (getTotalItem() === 0) {
+    return (
+      <div style={{ marginTop: "45px" }}>
+        <div className="cart_title">
+          <h1>GIỎ HÀNG</h1>
+        </div>
+        <div className="empty_track">
+          <img src={cart_empty} alt="" />
+          <h2>
+            Giỏ hàng có vẻ hơi{" "}
+            <strong style={{ color: "#41a0ff" }}>trống trải</strong>. Hãy mua
+            cái gì đó nào!
+          </h2>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="cartitems">
       <div className="cart_title">
@@ -142,5 +162,4 @@ const CartItem = () => {
     </div>
   );
 };
-
 export default CartItem;

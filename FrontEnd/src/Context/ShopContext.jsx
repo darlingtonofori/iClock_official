@@ -76,6 +76,26 @@ const ShopContextProvider = (props) => {
       })
     : all_product;
 
+  useEffect(() => {
+    // Khôi phục dữ liệu từ localStorage khi ứng dụng khởi chạy
+    for (const itemId in cartItems) {
+      const storedSelectedFace = localStorage.getItem(`selectedFace_${itemId}`);
+      const storedSelectedStrap = localStorage.getItem(
+        `selectedStrap_${itemId}`
+      );
+      if (storedSelectedFace && storedSelectedStrap) {
+        setSelectedFaceForProducts((prev) => ({
+          ...prev,
+          [itemId]: storedSelectedFace,
+        }));
+        setSelectedStrapForProducts((prev) => ({
+          ...prev,
+          [itemId]: storedSelectedStrap,
+        }));
+      }
+    }
+  }, []);
+
   const addToCart = (itemId, selectedFace, selectedStrap) => {
     setSelectedFaceForProducts((prev) => ({ ...prev, [itemId]: selectedFace }));
     setSelectedStrapForProducts((prev) => ({

@@ -33,14 +33,16 @@ const Navbar = () => {
 
     if (currentHour >= 5 && currentHour < 12) {
       greetingMessage = "Chào buổi sáng";
-    } else if (currentHour >= 12 && currentHour < 18) {
+    } else if (currentHour >= 12 && currentHour < 17) {
+      greetingMessage = "Chào buổi trưa";
+    } else if (currentHour >= 17 && currentHour < 19) {
       greetingMessage = "Chào buổi chiều";
     } else {
       greetingMessage = "Chào buổi tối";
     }
 
     if (userData) {
-      greetingMessage += `, <strong>${userData.name}</strong>`;
+      greetingMessage += `, <strong style="color: #41a0ff;">Kiều Tấn Quốc</strong>`;
     }
 
     return <div dangerouslySetInnerHTML={{ __html: greetingMessage + "!" }} />;
@@ -149,6 +151,7 @@ const Navbar = () => {
         <div className="nav-login-cart">
           {localStorage.getItem("auth-token") ? (
             <button
+              className="signout"
               onClick={() => {
                 localStorage.removeItem("auth-token");
                 window.location.replace("/");

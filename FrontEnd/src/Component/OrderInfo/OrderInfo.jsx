@@ -232,48 +232,6 @@ const OrderInfo = () => {
                             {orderItem.status}
                           </strong>
                         )}
-                        {/* <h3>Thông tin người nhận</h3>
-                  <p>
-                    <strong>Tên người nhận:</strong>{" "}
-                    {orderItem.recipientInfo.name}
-                  </p>
-                  <p>
-                    <strong>Số điện thoại:</strong>{" "}
-                    {orderItem.recipientInfo.phoneNumber}
-                  </p>
-                  <p>
-                    <strong>Địa chỉ:</strong> {orderItem.recipientInfo.address}
-                  </p>
-                  <p>
-                    <strong>Email:</strong> {orderItem.recipientInfo.mail}
-                  </p>
-                  <h3>Chi tiết đơn hàng</h3>
-                  <div>
-                    {orderItem.orderDetails.map((item, index) => (
-                      <div key={index} className="product ">
-                        <div>
-                          <img src={item.image} alt={item.productName} />
-                        </div>
-                        <div>
-                          <p>
-                            <strong>Tên sản phẩm:</strong> {item.productName}
-                          </p>
-                          <p>
-                            <strong>Số lượng:</strong> {item.quantity}
-                          </p>
-                          <p>
-                            <strong>Giá:</strong> {item.price}
-                          </p>
-                          <p>
-                            <strong>Loại dây đồng hồ:</strong> {item.strapType}
-                          </p>
-                          <p>
-                            <strong>Loại mặt đồng hồ:</strong> {item.faceType}
-                          </p>
-                        </div>
-                      </div>
-                    ))}
-                  </div> */}
                       </div>
                     </div>
                   </Link>

@@ -12,6 +12,7 @@ import men_banner from "./Component/Asset/banner_mens.png";
 import women_banner from "./Component/Asset/banner_women.png";
 import kid_banner from "./Component/Asset/banner_kids.png";
 import Security from "./Component/Security/Security";
+import Member from "./Component/Member/Member";
 import Warranty from "./Component/Warranty/Warranty";
 import EULA from "./Component/EULA/EULA";
 import Checkout from "./Component/Checkout/Checkout";
@@ -47,6 +48,7 @@ function App() {
           <Route path="/security" element={<Security />}></Route>
           <Route path="/warranty" element={<Warranty />}></Route>
           <Route path="/eula" element={<EULA />}></Route>
+          <Route path="/member" element={<Member />}></Route>
           <Route path="/cart/checkout" element={<Checkout />}></Route>
           <Route
             path="/cart/checkout/confirm"

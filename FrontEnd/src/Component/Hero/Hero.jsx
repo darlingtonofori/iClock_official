@@ -3,14 +3,15 @@ import "./Hero.css";
 import hand_icon from "../Asset/hand_icon.png";
 import arrow_icon from "../Asset/arrow.png";
 import hero_img from "../Asset/hero_image.png";
+import { Link } from "react-router-dom";
 
 const Hero = ({ collectionRef }) => {
   const handleScrollToCollection = () => {
     collectionRef.current.scrollIntoView({ behavior: "smooth" });
   };
   return (
-    <div className="hero">
-      <div className="hero-left">
+    <Link to="/womens" className="hero">
+      {/* <div className="hero-left">
         <h2>Sản phẩm mới</h2>
         <div>
           <div className="hero-hand-icon">
@@ -27,8 +28,8 @@ const Hero = ({ collectionRef }) => {
       </div>
       <div className="hero-right">
         <img src={hero_img} alt="" />
-      </div>
-    </div>
+      </div> */}
+    </Link>
   );
 };
 

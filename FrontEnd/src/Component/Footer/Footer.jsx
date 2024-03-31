@@ -51,6 +51,11 @@ const Footer = () => {
                   Điều khoản sử dụng
                 </Link>
               </li>
+              <li>
+                <Link onClick={scrollToTop} to="/member">
+                  Thông tin dự án và thành viên
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

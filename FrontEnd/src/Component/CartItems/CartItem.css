@@ -113,6 +113,21 @@
   margin-bottom: 30px;
 }
 
+.empty-cart-message {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.empty-cart-message {
+  width: 200px;
+  height: 200px;
+}
+
+.empty_track {
+  margin-top: 40px;
+}
+
 @media (max-width: 1280px) {
   .cartitems {
     margin: 60px 50px;
