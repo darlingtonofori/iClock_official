@@ -8,7 +8,16 @@ export const ShopContext = createContext(null);
 const getDefaultCart = () => {
   let cart = {};
   for (let index = 0; index < 300 + 1; index++) {
-    cart[index] = 0;
+    cart[index] = { quantity: 0, selectedFace: null, selectedStrap: null };
+  }
+  // Khôi phục thông tin loại dây và mặt từ localStorage
+  for (const key in localStorage) {
+    if (key.startsWith("selectedFace_") || key.startsWith("selectedStrap_")) {
+      const itemId = key.split("_")[1];
+      if (!cart[itemId]) {
+        cart[itemId] = { quantity: 0, selectedFace: null, selectedStrap: null };
+      }
+    }
   }
   return cart;
 };
@@ -96,49 +105,54 @@ const ShopContextProvider = (props) => {
     }
   }, []);
 
-  const addToCart = (itemId, selectedFace, selectedStrap) => {
+  const addToCart = (itemId, selectedFace, selectedStrap, quantityToAdd) => {
+    const productQuantity = all_product.find(
+      (product) => product.id === itemId
+    )?.quantity;
+    if (productQuantity === undefined) {
+      // Xử lý trường hợp không tìm thấy số lượng sản phẩm
+      return;
+    }
     setSelectedFaceForProducts((prev) => ({ ...prev, [itemId]: selectedFace }));
     setSelectedStrapForProducts((prev) => ({
       ...prev,
       [itemId]: selectedStrap,
     }));
-
     localStorage.setItem(`selectedFace_${itemId}`, selectedFace);
     localStorage.setItem(`selectedStrap_${itemId}`, selectedStrap);
-
-    // // Lưu selectedFace và selectedStrap vào localStorage
-    // localStorage.setItem(`selectedFace_${itemId}`, selectedFace);
-    // localStorage.setItem(`selectedStrap_${itemId}`, selectedStrap);
 
     if (!localStorage.getItem("auth-token")) {
       alert("Bạn cần đăng nhập trước khi thêm sản phẩm vào giỏ hàng");
     } else {
-      setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
-      // Lưu selectedFace và selectedStrap vào localStorage
+      const updatedQuantity = cartItems[itemId]
+        ? cartItems[itemId] + quantityToAdd
+        : quantityToAdd;
+      if (updatedQuantity > productQuantity) {
+        alert("Số lượng sản phẩm vượt quá số lượng trong kho! ");
+      } else {
+        setCartItems((prev) => ({ ...prev, [itemId]: updatedQuantity }));
 
-      const updatedCartItems = {
-        ...cartItems,
-        [itemId]: cartItems[itemId] + 1,
-      };
-
-      if (localStorage.getItem("auth-token")) {
-        fetch("http://localhost:4000/addToCart", {
-          method: "POST",
-          headers: {
-            Accept: "application/form-data",
-            "auth-token": `${localStorage.getItem("auth-token")}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            itemId: itemId,
-            selectedFace: selectedFace,
-            selectedStrap: selectedStrap,
-          }),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            console.log(data);
-          });
+        if (localStorage.getItem("auth-token")) {
+          fetch("http://localhost:4000/addToCart", {
+            method: "POST",
+            headers: {
+              Accept: "application/form-data",
+              "auth-token": `${localStorage.getItem("auth-token")}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              itemId: itemId,
+              selectedFace: selectedFace,
+              selectedStrap: selectedStrap,
+              quantity: quantityToAdd,
+            }),
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              console.log(data);
+            });
+        }
+        alert(`Đã thêm ${updatedQuantity} sản phẩm vào giỏ hàng!`);
       }
     }
   };

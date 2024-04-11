@@ -1306,6 +1306,20 @@ app.get("/orderdetail/:orderId", async (req, res) => {
   }
 });
 
+app.get("/order/:orderId", async (req, res) => {
+  try {
+    const orderId = req.params.orderId;
+    const order = await Order.findOne({ _id: orderId });
+    if (!order) {
+      return res.status(404).json({ message: "Không tìm thấy đơn hàng!" });
+    }
+    res.json(order);
+  } catch (error) {
+    console.error("Lỗi khi tìm đơn hàng:", error.message);
+    res.status(500).json({ message: "Đã xảy ra lỗi khi tìm đơn hàng" });
+  }
+});
+
 const statusOrder = new mongoose.Schema({
   name: {
     type: String,
@@ -1353,6 +1367,16 @@ app.post("/updatestatusorder/:orderId", async (req, res) => {
       res
         .status(404)
         .json({ success: false, message: "Không tìm thấy đơn hàng" });
+    }
+
+    if (status === "Đã giao hàng") {
+      for (const orderDetail of updatedOrder.orderDetails) {
+        const product = await Product.findById(orderDetail.idProduct);
+        if (product) {
+          product.quantity -= orderDetail.quantity;
+          await product.save();
+        }
+      }
     }
     res.json({ success: true, message: "Đã cập nhật trạng thái đơn hàng" });
   } catch (error) {
@@ -1516,5 +1540,54 @@ app.get("/orderbydate/:date", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Lỗi máy chủ nội bộ" });
+  }
+});
+
+app.get("/compare", async (req, res) => {
+  try {
+    const products = await Product.find({});
+
+    // Tìm orderId mới nhất
+    const latestDeliveredOrder = await Order.findOne(
+      { status: "Đã giao hàng" },
+      {},
+      { sort: { createdAt: -1 } }
+    );
+
+    if (!latestDeliveredOrder) {
+      return res.json({}); // Trả về kết quả rỗng nếu không có đơn hàng nào đã giao hàng
+    }
+
+    // Tính toán quantity cho orderId mới nhất
+    const result = [];
+    for (const orderDetail of latestDeliveredOrder.orderDetails) {
+      const product = products.find(
+        (product) => product._id.toString() === orderDetail.idProduct.toString()
+      );
+
+      if (product) {
+        const newQuantity = product.quantity - orderDetail.quantity;
+
+        if (newQuantity >= 0) {
+          result.push({
+            orderId: latestDeliveredOrder._id,
+            productId: product._id,
+            id: product.id,
+            quantity: newQuantity,
+          });
+
+          product.quantity = newQuantity;
+          await product.save();
+        }
+      }
+    }
+
+    res.json(result);
+  } catch (error) {
+    console.error("Lỗi khi so sánh dữ liệu:", error.message);
+    res.status(500).json({
+      success: false,
+      errors: "Lỗi khi so sánh dữ liệu",
+    });
   }
 });

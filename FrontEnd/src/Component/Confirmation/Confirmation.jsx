@@ -142,6 +142,7 @@ const Confirmation = () => {
           `Lỗi: ${response.status} - ${response.statusText} - ${product.name}`
         );
       }
+
       navigate("/order", {
         state: { paymentMethod: paymentMethod },
       });

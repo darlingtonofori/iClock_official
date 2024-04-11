@@ -45,6 +45,10 @@
   font-weight: normal;
 }
 
+.signout {
+  background-color: #ed5050 !important;
+}
+
 .input-field {
   margin-bottom: 20px;
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./CartItem.css";
 import { useContext, useState } from "react";
 import { ShopContext } from "../../Context/ShopContext";
@@ -22,6 +22,8 @@ const CartItem = () => {
 
   // alert(`${selectedFace} - ${selectedStrap}`);
   const [promoCode, setPromoCode] = useState("");
+  const [canProceed, setCanProceed] = useState(true);
+  const [exceededAlertShown, setExceededAlertShown] = useState(false);
 
   const handlePromoCodeChange = (event) => {
     setPromoCode(event.target.value);
@@ -30,6 +32,28 @@ const CartItem = () => {
   const handleApplyPromoCode = async () => {
     await applyPromo(promoCode);
   };
+
+  useEffect(() => {
+    const checkQuantity = () => {
+      const exceedingProducts = [];
+      all_product.forEach((product) => {
+        if (cartItems[product.id] > 0) {
+          if (cartItems[product.id] > product.quantity) {
+            exceedingProducts.push(product.name);
+            // alert(cartItems[product.id]);
+            // alert(product.quantity);
+          }
+        }
+      });
+      if (exceedingProducts.length > 0) {
+        setCanProceed(false);
+        setExceededAlertShown(true);
+        // alert(canProceed);
+        alert(`Có sản phẩm vượt quá số lượng trong kho!`);
+      }
+    };
+    checkQuantity();
+  }, [cartItems]);
 
   // Kiểm tra nếu giỏ hàng trống
   if (getTotalItem() === 0) {
@@ -139,8 +163,10 @@ const CartItem = () => {
               <h3>Tổng cộng:</h3>
               <h3>{promoApplied ? getTotalCartPromote() : getTotalCart()} ₫</h3>
             </div>
-            <Link to="/cart/checkout">
-              <button className="confirm_btn">XÁC NHẬN ĐƠN HÀNG</button>
+            <Link to={canProceed ? "/cart/checkout" : "#"}>
+              <button className="confirm_btn" disabled={!canProceed}>
+                XÁC NHẬN ĐƠN HÀNG
+              </button>
             </Link>
           </div>
           <div className="cartItems-promocode">

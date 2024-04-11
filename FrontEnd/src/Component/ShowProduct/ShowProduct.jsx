@@ -14,6 +14,20 @@ const ShowProduct = (props) => {
   const [selectedStrapIndex, setSelectedStrapIndex] = useState(null);
   const [selectedFaceIndex, setSelectedFaceIndex] = useState(null);
   const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
+  const [quantity, setQuantity] = useState(1);
+
+  const {
+    getTotalCart,
+    getTotalItem,
+    all_product,
+    cartItems,
+    removeFromCart,
+    applyPromo,
+    promoApplied,
+    getTotalCartPromote,
+    selectedFaceForProducts,
+    selectedStrapForProducts,
+  } = useContext(ShopContext);
 
   if (!product || !product.image) {
     return (
@@ -44,16 +58,35 @@ const ShowProduct = (props) => {
     updateSelectedStrap(strap);
   };
 
+  const handleQuantityChange = (e) => {
+    const newQuantity = parseInt(e.target.value);
+    // Kiểm tra xem số lượng nhập vào có hợp lệ không (lớn hơn 0)
+    if (!isNaN(newQuantity) && newQuantity > 0) {
+      setQuantity(newQuantity);
+    }
+  };
+
   const checkLogin = () => {
     let login = localStorage.getItem("auth-token");
     if (!login) {
       alert("Bạn cần đăng nhập trước khi thêm sản phẩm vào giỏ hàng!");
     } else if (!selectedFace || !selectedStrap) {
-      alert("Vui lòng chọn loại dây và mặt trước khi thêm vào giỏ hàng!");
+      alert(
+        "Vui lòng chọn loại dây và mặt hoặc chọn số lượng phù hợp trước khi thêm vào giỏ hàng!"
+      );
+    } else if (quantity > product.quantity) {
+      alert("Số lượng vượt quá số lượng trong kho");
     } else {
-      // alert(`${selectedFace} - ${selectedStrap}`);
-      addToCart(product.id, selectedFace, selectedStrap);
-      alert("Đã thêm vào giỏ hàng!");
+      // Kiểm tra xem số lượng sản phẩm đã thêm vào giỏ hàng có vượt quá số lượng trong kho không
+      const productQuantity = product.quantity;
+      const existingCartItem = cartItems[product.id];
+      const quantityInCart = existingCartItem ? existingCartItem.quantity : 0;
+      if (quantityInCart >= productQuantity) {
+        alert(
+          `Số lượng sản phẩm vượt quá số lượng trong kho! Số lượng trong kho: ${productQuantity}, số lượng bạn đã thêm: ${quantityInCart}`
+        );
+        return;
+      }
     }
   };
 
@@ -74,6 +107,15 @@ const ShowProduct = (props) => {
 
     // Set the zoom position
     setZoomPosition(zoomPosition);
+  };
+
+  const addMultipleToCart = (quantityToAdd) => {
+    if (quantityToAdd > 0) {
+      for (let i = 0; i < quantityToAdd; i++) {
+        addToCart(product.id, selectedFace, selectedStrap);
+      }
+      alert(`Đã thêm ${quantityToAdd} sản phẩm vào giỏ hàng!`);
+    }
   };
 
   return (
@@ -109,6 +151,9 @@ const ShowProduct = (props) => {
           </div>
         </div>
         <div className="showProduct-right-des">{product.description}</div>
+        <div className="showProduct-right-quantity">
+          Số lượng còn lại: <strong>{product.quantity}</strong>
+        </div>
         <div className="showProduct-right-size">
           <h1>Chọn loại dây: </h1>
           <div className="showProduct-right-sizes">
@@ -168,10 +213,22 @@ const ShowProduct = (props) => {
               ))}
             </div>
           </div>
+          <div className="showProduct-right-quantity">
+            <label htmlFor="quantityInput">Số lượng:</label>
+            <input
+              type="number"
+              id="quantityInput"
+              name="quantityInput"
+              min="1"
+              value={quantity}
+              onChange={handleQuantityChange}
+            />
+          </div>
         </div>
         <button
           onClick={() => {
             checkLogin();
+            addToCart(product.id, selectedFace, selectedStrap, quantity);
           }}
         >
           Thêm vào giỏ hàng

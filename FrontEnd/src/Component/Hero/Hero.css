@@ -3,15 +3,13 @@
 }
 
 .hero {
-  height: 70vh;
-  background: url("https://sylvi.in/cdn/shop/files/Starboard_Womens_Banner_3_1400x.webp?v=1705730668")
-    no-repeat;
+  height: 90vh;
+  background: url("https://sylvi.in/cdn/shop/files/Starboard_Womens_Banner_3_1400x.webp?v=1705730668");
   background-size: cover;
   display: flex;
   border-top-right-radius: 15px;
   border-top-left-radius: 15px;
-  margin-bottom: 80px;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  margin-bottom: 70px;
 }
 
 .hero-left {

@@ -8,9 +8,10 @@ const Member = () => {
       <p>
         Trong quá trình học tập, nổ lực và cố gắng hoàn thành đúng tiến độ, thì
         nay đề tài Niên luận đã dần được hoàn thiện với những chức năng và yêu
-        cầu cần thiết. Cảm ơn sự giúp đỡ từ cô <strong>Võ Huỳnh Trâm</strong> đã
-        góp phần vào sự thành công chung của nhóm chúng em. Cảm ơn các bạn học
-        chung, các cộng tác đã giúp đỡ nhóm chúng em hoàn thành tốt đề tài này.
+        cầu cần thiết. Cảm ơn sự giúp đỡ từ cô{" "}
+        <strong style={{ color: "#41a0ff" }}>Võ Huỳnh Trâm</strong> đã góp phần
+        vào sự thành công chung của nhóm chúng em. Cảm ơn các bạn học chung, các
+        cộng tác đã giúp đỡ nhóm chúng em hoàn thành tốt đề tài này.
       </p>
       <p>Dưới đây là tổng quan về trang web của chúng tôi:</p>
       <p>
@@ -89,9 +90,18 @@ const Member = () => {
       <p>
         <strong>4. Thành viên nhóm</strong>
       </p>
-      <p>- Kiều Tấn Quốc - B20121328</p>
-      <p>- Nguyễn Văn Kiệt - B2003838</p>
-      <p>- Nguyễn Đức Thịnh - B2012146</p>
+      <p>
+        - <strong style={{ color: "#41a0ff" }}>Kiều Tấn Quốc</strong> -
+        B20121328
+      </p>
+      <p>
+        - <strong style={{ color: "#41a0ff" }}>Nguyễn Văn Kiệt</strong> -
+        B2003838
+      </p>
+      <p>
+        - <strong style={{ color: "#41a0ff" }}>Nguyễn Đức Thịnh</strong> -
+        B2012146
+      </p>
     </div>
   );
 };

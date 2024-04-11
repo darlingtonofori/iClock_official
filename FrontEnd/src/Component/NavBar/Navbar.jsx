@@ -31,7 +31,7 @@ const Navbar = () => {
 
     let greetingMessage = "";
 
-    if (currentHour >= 5 && currentHour < 12) {
+    if (currentHour >= 1 && currentHour < 12) {
       greetingMessage = "Chào buổi sáng";
     } else if (currentHour >= 12 && currentHour < 17) {
       greetingMessage = "Chào buổi trưa";
@@ -150,15 +150,12 @@ const Navbar = () => {
         </ul>
         <div className="nav-login-cart">
           {localStorage.getItem("auth-token") ? (
-            <button
-              className="signout"
-              onClick={() => {
-                localStorage.removeItem("auth-token");
-                window.location.replace("/");
-              }}
-            >
-              Đăng xuất
-            </button>
+            <div
+            // onClick={() => {
+            //   localStorage.removeItem("auth-token");
+            //   window.location.replace("/");
+            // }}
+            ></div>
           ) : (
             <Link to="/login">
               <button onClick={handleLoginCheck}>Đăng nhập</button>

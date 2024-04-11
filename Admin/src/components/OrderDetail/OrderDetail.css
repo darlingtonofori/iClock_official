@@ -28,3 +28,15 @@
   font-family: "Lexend";
   outline: none;
 }
+
+.order-detail button {
+  padding: 10px 10px;
+  outline: none;
+  border: none;
+  background: #41a0ff;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 10px;
+  font-family: "Lexend";
+  margin: 20px auto;
+}

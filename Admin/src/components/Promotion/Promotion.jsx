@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./Promotion.css";
 import { useEffect } from "react";
 import remove_icon from "../../assets/cross_icon.png";

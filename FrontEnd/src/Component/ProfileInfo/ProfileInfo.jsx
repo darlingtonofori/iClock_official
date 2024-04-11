@@ -250,6 +250,11 @@ const ProfileInfo = () => {
     }
   };
 
+  const signout = () => {
+    localStorage.removeItem("auth-token");
+    window.location.replace("/");
+  };
+
   return (
     <div className="profile-container">
       {isLogin ? (
@@ -428,6 +433,14 @@ const ProfileInfo = () => {
                         }}
                       >
                         Lưu thay đổi
+                      </button>
+                      <button
+                        className="signout"
+                        onClick={() => {
+                          signout();
+                        }}
+                      >
+                        Đăng xuất
                       </button>
                     </div>
                   </>

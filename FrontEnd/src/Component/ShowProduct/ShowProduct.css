@@ -109,6 +109,26 @@
   font-weight: 600;
 }
 
+.showProduct-right-quantity {
+  margin-top: 20px;
+}
+
+.showProduct-right-quantity strong {
+  color: #41a0ff;
+}
+
+.showProduct-right-quantity input {
+  background-color: #d1e4f7;
+  padding: 10px 10px;
+  border: none;
+  border-radius: 15px;
+  width: 20%;
+  box-sizing: border-box;
+  font-family: "Lexend";
+  font-weight: normal;
+  margin: 30px auto 50px 10px;
+}
+
 @media (max-width: 1280px) {
   .showProduct {
     margin: 0px 60px;
